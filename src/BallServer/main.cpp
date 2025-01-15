@@ -29,7 +29,7 @@ typedef int socklen_t;
 #define INVALID_SOCKET ((int)-1)
 #endif
 
-int main()
+int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
     WSADATA data;
     WSAStartup(MAKEWORD(2, 2), &data);
