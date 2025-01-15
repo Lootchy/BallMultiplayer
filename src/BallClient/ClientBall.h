@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <Windows.h>  
 #ifdef _WIN32
 #if _MSC_VER >= 1800
 #include <WS2tcpip.h>
@@ -29,6 +30,7 @@ typedef int socklen_t;
 class ClientBall {
 public:
     void Initialize();
+    static DWORD WINAPI ReceiveDataThread(LPVOID lpParamter);
     void SendData(const char* message);
     void ReceiveData();
     char* GetBuffer();

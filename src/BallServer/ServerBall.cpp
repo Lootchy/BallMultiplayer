@@ -1,4 +1,7 @@
 #include "ServerBall.h"
+#include <Windows.h>    
+#include <iostream>
+#include <cstring>
 
 void ServerBall::Initialize() {
     ServerSocket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
@@ -10,7 +13,6 @@ void ServerBall::Initialize() {
     addr.sin_family = AF_INET;
     addr.sin_port = htons(9999);
     addr.sin_addr.s_addr = INADDR_ANY;
-
 
     int res = bind(ServerSocket, reinterpret_cast<sockaddr*>(&addr), sizeof(addr));
     if (res == SOCKET_ERROR) {
@@ -30,16 +32,21 @@ void ServerBall::SendData(const char* message) {
 }
 
 void ServerBall::ReceiveData() {
-    socklen_t fromlen = sizeof(addr);
-    int ret = recvfrom(ServerSocket, buffer, 1500, 0, reinterpret_cast<sockaddr*>(&addrclient), &fromlen);
-    if (ret <= 0) {
-        std::cout << "Erreur lors de la réception des données" << std::endl;
-        exit(1);
-    }
-    else if (ret == 0)
+    sockaddr_in tempAddr;
+    socklen_t fromlen = sizeof(tempAddr);
+
+    while(true)
     {
-        buffer[ret] = '\0';
-        std::cout << "Message reçu : " << buffer << std::endl;
+        int ret = recvfrom(ServerSocket, buffer, 1500, 0, reinterpret_cast<sockaddr*>(&tempAddr), &fromlen);
+        if (ret <= 0) {
+            std::cout << "Erreur lors de la réception des données" << std::endl;
+            exit(1);
+        }
+        else {
+            buffer[ret] = '\0';
+            std::cout << "Message reçu : " << buffer << std::endl;
+            addrclient = tempAddr;
+        }
     }
 }
 

@@ -12,6 +12,19 @@ void ClientBall::Initialize() {
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_port = htons(9999);
     inet_pton(AF_INET, "127.0.0.1", &serverAddr.sin_addr);
+
+    HANDLE thread2 = CreateThread(
+        nullptr,
+        0,
+        ReceiveDataThread,
+        this,
+        0,
+        nullptr);
+
+    if (thread2 == NULL) {
+        std::cout << "Erreur lors de la création du thread de réception" << std::endl;
+        exit(1);
+    }
 }
 
 void ClientBall::SendData(const char* message) {
@@ -43,4 +56,12 @@ char* ClientBall::GetBuffer() {
 
 SOCKET ClientBall::getSocket() {
     return ClientSocket;
+}
+
+DWORD WINAPI ClientBall::ReceiveDataThread(LPVOID lpParameter) {
+    ClientBall* clientBall = static_cast<ClientBall*>(lpParameter);
+
+    clientBall->ReceiveData();
+
+    return 0;
 }

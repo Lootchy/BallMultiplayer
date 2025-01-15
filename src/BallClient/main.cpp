@@ -33,6 +33,11 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     WSADATA data;
     WSAStartup(MAKEWORD(2, 2), &data);
     std::cout << "BallClient Launch " << std::endl;
+    ClientBall clientball;
+    clientball.Initialize();
+    clientball.SendData("salut toi ! ");
 
+    closesocket(clientball.getSocket());
+    WSACleanup();
     return 0;
 }

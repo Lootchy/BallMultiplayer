@@ -33,6 +33,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 {
     WSADATA data;
     WSAStartup(MAKEWORD(2, 2), &data);
+    ServerBall server;
+    server.Initialize();
 
     std::cout << "BallServer Launch " << std::endl;
     float radius = 20.0f;
@@ -44,7 +46,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
     while (window.isOpen())
     {
-
+        server.ReceiveData();
         shape.setPosition(shape.getPosition().x + x, shape.getPosition().y + y);
         if (shape.getPosition().x < 0 || shape.getPosition().x > 800 - radius) {
             x *= -1;
@@ -64,5 +66,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
         window.display();
     }
 
+    WSACleanup();
+    closesocket(server.GetSocket());
     return 0;
 }
