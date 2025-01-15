@@ -1,0 +1,42 @@
+{
+    "projects": {
+        "BallClient": {
+            "dependencies": [
+                "BallGame"
+            ],
+            "dependents": [],
+            "guid": "35DB2966-585D-7F1D-3EA3-38B364C90526",
+            "lib": false,
+            "pch": false,
+            "vcpkg": true,
+            "window": false
+        },
+        "BallGame": {
+            "dependencies": [],
+            "dependents": [
+                "BallClient",
+                "BallServer"
+            ],
+            "guid": "0AA749AD-509D-2BF8-54D4-472D104B5FA5",
+            "lib": true,
+            "pch": false,
+            "vcpkg": true,
+            "window": false
+        },
+        "BallServer": {
+            "dependencies": [
+                "BallGame"
+            ],
+            "dependents": [],
+            "guid": "3DF54E7D-6FE2-2769-2F9E-44D50D1F2823",
+            "lib": false,
+            "pch": false,
+            "vcpkg": true,
+            "window": true
+        }
+    },
+    "solution_guid": "33C76DB0-69E9-258D-1727-747A27074D00",
+    "solution_name": "BallGame",
+    "startup_project": "BallGame",
+    "version": "1.17.3"
+}
