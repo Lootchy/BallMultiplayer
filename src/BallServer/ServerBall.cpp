@@ -46,15 +46,20 @@ void ServerBall::ReceiveData() {
     sockaddr_in tempAddr;
     socklen_t fromlen = sizeof(tempAddr);
 
-    int ret = recvfrom(ServerSocket, buffer, 1500, 0, reinterpret_cast<sockaddr*>(&tempAddr), &fromlen);
+    int ret = recvfrom(ServerSocket, buffer, sizeof(buffer) - 1, 0, reinterpret_cast<sockaddr*>(&tempAddr), &fromlen);
     if (ret <= 0) {
-        std::cout << "Erreur lors de la réception des données" << std::endl;
-        exit(1);
+        std::cout << "Erreur lors de la réception des données : " << WSAGetLastError() << std::endl;
     }
     else {
         buffer[ret] = '\0';
-        std::cout << "Message reçu : " << buffer << std::endl;
+        std::cout << "Message reçu du client : " << buffer << std::endl;
+
+        // Enregistrer l'adresse du client pour répondre plus tard.
         addrclient = tempAddr;
+
+        // Envoyer une réponse au client.
+        const char* response = "Message reçu par le serveur !";
+        SendData(response);
     }
 }
 

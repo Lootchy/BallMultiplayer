@@ -57,6 +57,7 @@ void ClientBall::ReceiveData() {
     else {
         buffer[ret] = '\0'; // Ajoutez une terminaison de chaîne
         std::cout << "Message reçu : " << buffer << std::endl;
+        serverAddr = senderAddr;
     }
 }
 
