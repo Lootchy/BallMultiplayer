@@ -1,6 +1,4 @@
-#include "ServerBall.h"
-#include <Windows.h>    
-#include <iostream>
+#include "ServerBall.h"    
 #include <cstring>
 
 void ServerBall::Initialize() {
