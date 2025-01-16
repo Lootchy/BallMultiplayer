@@ -4,7 +4,7 @@
 #include "main.h"
 #include "ClientBall.h"
 
-int APIENTRY WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
+int main() {
     std::cout << "`Client\n";
     WSADATA data;
     if (WSAStartup(MAKEWORD(2, 2), &data) != 0) {
@@ -14,7 +14,7 @@ int APIENTRY WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
     ClientBall clientball;
     clientball.Initialize();
-    clientball.SendData("Salut toi!");
+
 
     closesocket(clientball.getSocket());
     WSACleanup();

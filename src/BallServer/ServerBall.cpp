@@ -2,6 +2,8 @@
 #include <cstring>
 
 void ServerBall::Initialize() {
+    WSADATA data;
+    int result = WSAStartup(MAKEWORD(2, 2), &data);
     ServerSocket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
     if (ServerSocket == SOCKET_ERROR) {
         std::cout << "Erreur lors de la création du socket" << std::endl;
@@ -40,7 +42,7 @@ void ServerBall::SendData(const char* message) {
 }
 
 void ServerBall::ReceiveData() {
-    std::cout << "Thread receive Server \n";
+    std::cout << "Thread receive Server has been launch \n";
     sockaddr_in tempAddr;
     socklen_t fromlen = sizeof(tempAddr);
 

@@ -4,7 +4,7 @@
 #include "main.h"
 #include "ServerBall.h"
 
-int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+int main()
 {
     WSADATA data;
     WSAStartup(MAKEWORD(2, 2), &data);
@@ -39,7 +39,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
         window.draw(shape);
         window.display();
     }
-
     WSACleanup();
     closesocket(server.GetSocket());
     return 0;
