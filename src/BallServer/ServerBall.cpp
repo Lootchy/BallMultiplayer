@@ -19,6 +19,16 @@ void ServerBall::Initialize() {
     }
 
     std::cout << "Serveur prêt à recevoir des données sur le port 9999..." << std::endl;
+
+    HANDLE thread = CreateThread(
+        nullptr, 0, ReceiveDataThread, this, 0, nullptr);
+
+    if (thread == NULL) {
+        std::cerr << "Erreur lors de la création du thread" << std::endl;
+        exit(1);
+    }
+    CloseHandle(thread);
+
 }
 
 void ServerBall::SendData(const char* message) {
@@ -30,21 +40,19 @@ void ServerBall::SendData(const char* message) {
 }
 
 void ServerBall::ReceiveData() {
+    std::cout << "Thread receive Server \n";
     sockaddr_in tempAddr;
     socklen_t fromlen = sizeof(tempAddr);
 
-    while(true)
-    {
-        int ret = recvfrom(ServerSocket, buffer, 1500, 0, reinterpret_cast<sockaddr*>(&tempAddr), &fromlen);
-        if (ret <= 0) {
-            std::cout << "Erreur lors de la réception des données" << std::endl;
-            exit(1);
-        }
-        else {
-            buffer[ret] = '\0';
-            std::cout << "Message reçu : " << buffer << std::endl;
-            addrclient = tempAddr;
-        }
+    int ret = recvfrom(ServerSocket, buffer, 1500, 0, reinterpret_cast<sockaddr*>(&tempAddr), &fromlen);
+    if (ret <= 0) {
+        std::cout << "Erreur lors de la réception des données" << std::endl;
+        exit(1);
+    }
+    else {
+        buffer[ret] = '\0';
+        std::cout << "Message reçu : " << buffer << std::endl;
+        addrclient = tempAddr;
     }
 }
 
@@ -55,3 +63,13 @@ char* ServerBall::GetBuffer() {
 SOCKET ServerBall::GetSocket() {
     return ServerSocket;
 }
+
+
+DWORD WINAPI ServerBall::ReceiveDataThread(LPVOID lpParameter) {
+    ServerBall* serverBall = static_cast<ServerBall*>(lpParameter);
+    while (true) {
+        serverBall->ReceiveData();
+    }
+    return 0;
+}
+

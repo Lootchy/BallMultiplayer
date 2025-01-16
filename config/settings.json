@@ -9,19 +9,19 @@
             "lib": false,
             "pch": false,
             "vcpkg": true,
-            "window": false
+            "window": true
         },
         "BallGame": {
             "dependencies": [],
             "dependents": [
-                "BallClient",
-                "BallServer"
+                "BallServer",
+                "BallClient"
             ],
             "guid": "0AA749AD-509D-2BF8-54D4-472D104B5FA5",
             "lib": true,
             "pch": false,
             "vcpkg": true,
-            "window": false
+            "window": true
         },
         "BallServer": {
             "dependencies": [

@@ -21,7 +21,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
     while (window.isOpen())
     {
-        server.ReceiveData();
         shape.setPosition(shape.getPosition().x + x, shape.getPosition().y + y);
         if (shape.getPosition().x < 0 || shape.getPosition().x > 800 - radius) {
             x *= -1;

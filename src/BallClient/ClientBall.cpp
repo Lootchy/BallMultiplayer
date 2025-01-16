@@ -32,6 +32,7 @@ void ClientBall::SendData(const char* message) {
 }
 
 void ClientBall::ReceiveData() {
+    std::cout << "Thread receive Client \n";
     socklen_t addrLen = sizeof(serverAddr);
     int ret = recvfrom(ClientSocket, buffer, sizeof(buffer) - 1, 0,
         reinterpret_cast<sockaddr*>(&serverAddr), &addrLen);
