@@ -32,8 +32,8 @@ void ServerBall::Initialize() {
 
 }
 
-void ServerBall::SendData(const char* message) {
-    int ret = sendto(ServerSocket, message, strlen(message), 0, reinterpret_cast<const sockaddr*>(&addrclient), sizeof(addrclient));
+void ServerBall::SendData(const char* message, bool needId = false, int id = -1) {
+    int ret = sendto(ServerSocket, message, 4, 0, reinterpret_cast<const sockaddr*>(&addrclient), sizeof(addrclient));
     if (ret == -1) {
         std::cout << "Erreur lors de l'envoi des données" << std::endl;
         exit(1);

@@ -21,14 +21,15 @@ public:
     void Initialize();
     static DWORD WINAPI ReceiveDataThread(LPVOID lpParameter);
     void SendData(const char* message);
-    void ReceiveData();
+    void ReceiveData(int id);
     char* GetBuffer();
     SOCKET getSocket();
-    float x;
+    int op;
+    unsigned int xx;
     float y;
 
 private:
     SOCKET ClientSocket;
     sockaddr_in serverAddr;
-    char buffer[1400];
+  //  char buffer[1400];
 };

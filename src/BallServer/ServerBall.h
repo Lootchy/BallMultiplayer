@@ -24,7 +24,7 @@ private:
 
 public:
 	void Initialize();
-	void SendData(const char* message);
+	void SendData(const char* message, bool needId = false,int id = -1);
 	static DWORD WINAPI ReceiveDataThread(LPVOID lpParameter);
 	void ReceiveData();
 	char* GetBuffer();

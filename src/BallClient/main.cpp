@@ -20,12 +20,11 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(800, 600), "Client Window");
     sf::CircleShape shape(radius);
     shape.setFillColor(sf::Color::Green);
-    float x = 0.1;
-    float y = 0.1;
 
     while (window.isOpen())
     {
-        shape.setPosition(clientball.x, 300);
+  // std::cout << "o: " << clientball.xx << std::endl;
+        shape.setPosition(clientball.xx, clientball.y);
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -36,6 +35,7 @@ int main() {
         window.clear();
         window.draw(shape);
         window.display();
+
     }
 
     closesocket(clientball.getSocket());

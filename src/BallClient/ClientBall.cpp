@@ -40,7 +40,7 @@ void ClientBall::SendData(const char* message) {
     }
 }
 
-void ClientBall::ReceiveData() {
+void ClientBall::ReceiveData(int id) {
     if (ClientSocket == INVALID_SOCKET) {
         std::cerr << "Erreur : le socket client est invalide.\n";
         return;
@@ -50,22 +50,36 @@ void ClientBall::ReceiveData() {
     sockaddr_in senderAddr;
     socklen_t senderAddrLen = sizeof(senderAddr);
 
+    char buffer[1400];
     int ret = recvfrom(ClientSocket, buffer, sizeof(buffer) - 1, 0, reinterpret_cast<sockaddr*>(&senderAddr), &senderAddrLen);
     if (ret == SOCKET_ERROR) {
         std::cerr << "Erreur de réception client: " << WSAGetLastError() << std::endl;
     }
     else {
-        buffer[ret] = '\0';
-        memcpy(&x, buffer, sizeof(x));
+        switch(id)
+        {
+        case -1:
+            break;
+        case 0:
+            buffer[ret] = '\0';
+            //memcpy(&x, buffer, sizeof(x));
+            memcpy(&xx, buffer, sizeof(xx));
+            break;
+        case 1:
+            buffer[ret] = '\0';
+            memcpy(&y, buffer, sizeof(y));
+            break;
+        }
         serverAddr = senderAddr;
-        std::cout << x << std::endl;
+        std::cout << "client: " << xx << std::endl;
     }
 }
 
 
 
 char* ClientBall::GetBuffer() {
-    return buffer;
+    //return buffer;
+    return nullptr;
 }
 
 SOCKET ClientBall::getSocket() {
@@ -81,8 +95,8 @@ DWORD WINAPI ClientBall::ReceiveDataThread(LPVOID lpParameter) {
             break;
         }
 
-        clientBall->ReceiveData();
-        Sleep(100);
+        clientBall->ReceiveData(1);
+        //Sleep(100);
     }
 
     return 0;
