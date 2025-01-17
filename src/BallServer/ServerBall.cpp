@@ -29,7 +29,6 @@ void ServerBall::Initialize() {
         std::cerr << "Erreur lors de la création du thread" << std::endl;
         exit(1);
     }
-    CloseHandle(thread);
 
 }
 
@@ -42,7 +41,6 @@ void ServerBall::SendData(const char* message) {
 }
 
 void ServerBall::ReceiveData() {
-    std::cout << "Thread receive Server has been launch \n";
     sockaddr_in tempAddr;
     socklen_t fromlen = sizeof(tempAddr);
 

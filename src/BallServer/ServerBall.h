@@ -20,7 +20,8 @@ private:
 	SOCKET ServerSocket;
 	sockaddr_in addr;
 	sockaddr_in addrclient;
-	char buffer[1500];
+	char buffer[1400];
+
 public:
 	void Initialize();
 	void SendData(const char* message);

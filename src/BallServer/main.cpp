@@ -13,7 +13,7 @@ int main()
 
     std::cout << "BallServer Launch " << std::endl;
     float radius = 20.0f;
-    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML works!");
+    sf::RenderWindow window(sf::VideoMode(800, 600), "Server Window");
     sf::CircleShape shape(radius);
     shape.setFillColor(sf::Color::Green);
     float x = 0.1;
@@ -21,6 +21,8 @@ int main()
 
     while (window.isOpen())
     {
+
+        char buf[10];
         shape.setPosition(shape.getPosition().x + x, shape.getPosition().y + y);
         if (shape.getPosition().x < 0 || shape.getPosition().x > 800 - radius) {
             x *= -1;
@@ -28,6 +30,7 @@ int main()
         else if (shape.getPosition().y < 0 || shape.getPosition().y > 600 - radius) {
             y *= -1;
         }
+        memcpy(buf, &shape.getPosition().x, 4);
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -38,8 +41,12 @@ int main()
         window.clear();
         window.draw(shape);
         window.display();
+
+
+
+        server.SendData(buf);
     }
+
     WSACleanup();
-    closesocket(server.GetSocket());
     return 0;
 }

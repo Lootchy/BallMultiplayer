@@ -39,13 +39,13 @@ void ClientBall::SendData(const char* message) {
         exit(1);
     }
 }
+
 void ClientBall::ReceiveData() {
     if (ClientSocket == INVALID_SOCKET) {
         std::cerr << "Erreur : le socket client est invalide.\n";
         return;
     }
 
-    std::cout << "Thread receive Client has been launched.\n";
 
     sockaddr_in senderAddr;
     socklen_t senderAddrLen = sizeof(senderAddr);
@@ -55,9 +55,10 @@ void ClientBall::ReceiveData() {
         std::cerr << "Erreur de réception client: " << WSAGetLastError() << std::endl;
     }
     else {
-        buffer[ret] = '\0'; // Ajoutez une terminaison de chaîne
-        std::cout << "Message reçu : " << buffer << std::endl;
+        buffer[ret] = '\0';
+        memcpy(&x, buffer, sizeof(x));
         serverAddr = senderAddr;
+        std::cout << x << std::endl;
     }
 }
 

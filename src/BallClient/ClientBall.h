@@ -24,9 +24,11 @@ public:
     void ReceiveData();
     char* GetBuffer();
     SOCKET getSocket();
+    float x;
+    float y;
 
 private:
     SOCKET ClientSocket;
     sockaddr_in serverAddr;
-    char buffer[1500];
+    char buffer[1400];
 };
