@@ -18,10 +18,19 @@
 
 class ClientBall {
 public:
+    struct Message {
+        int type;      
+        float x;      
+        float y;
+        int id;   
+        const char* message;
+    };
+
+
     void Initialize();
     static DWORD WINAPI ReceiveDataThread(LPVOID lpParameter);
-    void SendData(const char* message);
-    void ReceiveData(int id);
+    void SendData(const Message& msg);
+    void ReceiveData();
     char* GetBuffer();
     SOCKET getSocket();
     int op;

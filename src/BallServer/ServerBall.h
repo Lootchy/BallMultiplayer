@@ -23,8 +23,15 @@ private:
 	char buffer[1400];
 
 public:
+	struct Message {
+		int type;
+		float x;
+		float y;
+		int id;
+		const char* message;
+	};
 	void Initialize();
-	void SendData(const char* message, bool needId = false,int id = -1);
+	void SendData(const Message& msg);
 	static DWORD WINAPI ReceiveDataThread(LPVOID lpParameter);
 	void ReceiveData();
 	char* GetBuffer();

@@ -20,8 +20,10 @@ void ClientBall::Initialize() {
     inet_pton(AF_INET, "127.0.0.1", &serverAddr.sin_addr);
     std::cout << "Socket ClientBall cree avec succes.\n";
 
+    Message msg;
+    msg.message = "Addresse send to the server";
 
-    SendData("Client Send his Add to the server \n");
+    SendData(msg);
     HANDLE thread = CreateThread(
         nullptr, 0, ReceiveDataThread, this, 0, nullptr);
 
@@ -31,8 +33,8 @@ void ClientBall::Initialize() {
     }
 }
 
-void ClientBall::SendData(const char* message) {
-    int ret = sendto(ClientSocket, message, strlen(message), 0,
+void ClientBall::SendData(const Message& msg) {
+    int ret = sendto(ClientSocket, reinterpret_cast<const char*>(&msg), sizeof(msg), 0,
         reinterpret_cast<sockaddr*>(&serverAddr), sizeof(serverAddr));
     if (ret == -1) {
         std::cerr << "Erreur d'envoi de données client." << std::endl;
@@ -40,40 +42,36 @@ void ClientBall::SendData(const char* message) {
     }
 }
 
-void ClientBall::ReceiveData(int id) {
-    if (ClientSocket == INVALID_SOCKET) {
-        std::cerr << "Erreur : le socket client est invalide.\n";
-        return;
-    }
 
-
+void ClientBall::ReceiveData() {
     sockaddr_in senderAddr;
     socklen_t senderAddrLen = sizeof(senderAddr);
 
     char buffer[1400];
-    int ret = recvfrom(ClientSocket, buffer, sizeof(buffer) - 1, 0, reinterpret_cast<sockaddr*>(&senderAddr), &senderAddrLen);
-    if (ret == SOCKET_ERROR) {
+    int ret = recvfrom(ClientSocket, buffer, sizeof(buffer) - 1, 0,
+        reinterpret_cast<sockaddr*>(&senderAddr), &senderAddrLen);
+    if (ret <= 0) {
         std::cerr << "Erreur de réception client: " << WSAGetLastError() << std::endl;
     }
     else {
-        switch(id)
-        {
-        case -1:
-            break;
-        case 0:
-            buffer[ret] = '\0';
-            //memcpy(&x, buffer, sizeof(x));
-            memcpy(&xx, buffer, sizeof(xx));
-            break;
+        buffer[ret] = '\0';
+
+        Message msg;
+        memcpy(&msg, buffer, sizeof(msg));
+        switch (msg.type) {
         case 1:
-            buffer[ret] = '\0';
-            memcpy(&y, buffer, sizeof(y));
+            xx = msg.x;
+            y = msg.y;
+            break;
+        case 2:
+            break;
+        default:
             break;
         }
-        serverAddr = senderAddr;
-        std::cout << "client: " << xx << std::endl;
     }
 }
+
+
 
 
 
@@ -95,7 +93,7 @@ DWORD WINAPI ClientBall::ReceiveDataThread(LPVOID lpParameter) {
             break;
         }
 
-        clientBall->ReceiveData(1);
+        clientBall->ReceiveData();
         //Sleep(100);
     }
 

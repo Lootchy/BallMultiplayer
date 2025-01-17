@@ -33,11 +33,11 @@ int main()
         unsigned int posX = (int)shape.getPosition().x;
         std::cout << "::" << posX << std::endl;
         memcpy(buf, &posX, 4);
-        server.SendData(buf, true, 0);
-        unsigned int posY = (int)shape.getPosition().y;
-        std::cout << "::" << posY << std::endl;
-        memcpy(buf, &posY, 4);
-        server.SendData(buf, true, 1);
+        ServerBall::Message msg;
+        msg.type = 1;
+        msg.x = shape.getPosition().x;
+        msg.y = shape.getPosition().y;
+        server.SendData(msg);
 
         sf::Event event;
         while (window.pollEvent(event))

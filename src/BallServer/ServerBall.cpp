@@ -32,8 +32,8 @@ void ServerBall::Initialize() {
 
 }
 
-void ServerBall::SendData(const char* message, bool needId = false, int id = -1) {
-    int ret = sendto(ServerSocket, message, 4, 0, reinterpret_cast<const sockaddr*>(&addrclient), sizeof(addrclient));
+void ServerBall::SendData(const Message& msg) {
+    int ret = sendto(ServerSocket, reinterpret_cast<const char*>(&msg), sizeof(msg), 0, reinterpret_cast<const sockaddr*>(&addrclient), sizeof(addrclient));
     if (ret == -1) {
         std::cout << "Erreur lors de l'envoi des données" << std::endl;
         exit(1);
@@ -55,8 +55,9 @@ void ServerBall::ReceiveData() {
         // Enregistrer l'adresse du client pour répondre plus tard.
         addrclient = tempAddr;
 
+        Message response;
         // Envoyer une réponse au client.
-        const char* response = "Message reçu par le serveur !";
+        response.message = "Message reçu par le serveur !";
         SendData(response);
     }
 }
